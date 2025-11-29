@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'core/di/service_locator.dart';
 import 'core/theme/app_theme.dart';
-import 'features/player/presentation/player_screen.dart';
+import 'features/player/presentation/pages/player_page.dart';
 
 void main() {
+  setupServiceLocator();
   runApp(const GuitarMasterApp());
 }
 
@@ -14,7 +16,7 @@ class GuitarMasterApp extends StatelessWidget {
     return MaterialApp(
       title: 'Prática Musical',
       theme: AppTheme.darkTheme,
-      home: const PlayerScreen(),
+      home: const PlayerPage(),
     );
   }
 }
