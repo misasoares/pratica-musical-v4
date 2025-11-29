@@ -35,4 +35,10 @@ class PracticeRepositoryImpl implements IPracticeRepository {
     final box = await _getBox();
     return box.values.toList();
   }
+
+  @override
+  Future<void> clearAllLogs() async {
+    final box = await _getBox();
+    await box.clear();
+  }
 }
