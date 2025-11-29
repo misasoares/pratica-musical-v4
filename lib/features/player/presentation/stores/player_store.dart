@@ -4,7 +4,7 @@ import 'package:mobx/mobx.dart';
 import '../../data/models/practice_log_model.dart';
 import '../../domain/audio_service_interface.dart';
 import '../../domain/repositories/i_practice_repository.dart';
-import '../../domain/exercise.dart';
+import '../../../content/domain/entities/exercise.dart';
 import '../../domain/practice_phase.dart';
 
 part 'player_store.g.dart';
@@ -49,7 +49,8 @@ abstract class PlayerStoreBase with Store {
   @action
   Future<void> initSession(Exercise exercise) async {
     _currentExercise = exercise;
-    targetDuration = exercise.duration;
+    // Default to 5 minutes if not specified (new entity doesn't have total duration yet)
+    targetDuration = const Duration(minutes: 5);
     elapsedTime = Duration.zero;
     currentPhase = PracticePhase.warmup;
     isPlaying = false;
@@ -57,15 +58,14 @@ abstract class PlayerStoreBase with Store {
     _maxBpmReached = 0;
 
     // Load last log to determine target BPM
-    final lastLog =
-        await _repository.getLastLog(exercise.name); // Using name as ID for now
+    final lastLog = await _repository.getLastLog(exercise.id);
     if (lastLog != null) {
       // Logic: If last session was success, maybe increase BPM?
       // For now, just restore the target.
       currentBpm = lastLog.targetBpm;
       debugPrint('Restored BPM from history: $currentBpm');
     } else {
-      currentBpm = exercise.targetBpm; // Default/Calibration
+      currentBpm = exercise.startBpmCalibration; // Default/Calibration
       debugPrint('No history found, using default BPM: $currentBpm');
     }
   }
@@ -139,7 +139,7 @@ abstract class PlayerStoreBase with Store {
     if (_currentExercise != null) {
       final log = PracticeLogModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(), // Simple ID
-        exerciseId: _currentExercise!.name,
+        exerciseId: _currentExercise!.id,
         date: DateTime.now(),
         mode: 'training', // Simplified
         maxBpmReached: _maxBpmReached > 0 ? _maxBpmReached : currentBpm,

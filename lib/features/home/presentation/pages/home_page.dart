@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import '../../../../core/services/app_settings_service.dart';
+import '../../../onboarding/presentation/dialogs/practice_onboarding_dialog.dart';
+import '../../../player/presentation/pages/player_page.dart';
+import '../../../player/presentation/args/player_page_args.dart';
+import '../../../content/domain/repositories/i_content_repository.dart';
 import '../stores/home_store.dart';
 import '../../../content/domain/entities/module.dart';
 import '../../../content/domain/entities/schedule.dart';
@@ -95,11 +100,44 @@ class _HomePageState extends State<HomePage> {
       leading: const Icon(Icons.fitness_center),
       title: Text(schedule.title),
       subtitle: Text(schedule.description),
-      onTap: () {
-        // TODO: Navigate to PlayerPage with this schedule
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Iniciar treino: ${schedule.title}')),
-        );
+      onTap: () async {
+        final settings = GetIt.I<AppSettingsService>();
+        final hasSeen = await settings.hasSeenPracticeOnboarding();
+
+        if (!mounted) return;
+
+        if (!hasSeen) {
+          await showDialog(
+            context: context,
+            builder: (_) => const PracticeOnboardingDialog(),
+          );
+          await settings.setSeenPracticeOnboarding();
+        }
+
+        if (!mounted) return;
+
+        // Start with the first exercise
+        if (schedule.exercises.isNotEmpty) {
+          final exerciseId = schedule.exercises.first;
+          // In a real app, we would fetch the full exercise object here or pass the ID
+          // For now, we need to fetch it from the repository to pass to PlayerPage
+          final repo = GetIt.I<IContentRepository>();
+          final exercise = await repo.getExercise(exerciseId);
+
+          if (exercise != null && mounted) {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => PlayerPage(
+                  args: PlayerPageArgs(
+                    exercise: exercise,
+                    currentSchedule: schedule,
+                    exerciseIndex: 0,
+                  ),
+                ),
+              ),
+            );
+          }
+        }
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import '../../core/services/app_settings_service.dart';
 import '../../features/player/data/audio_service_impl.dart';
 import '../../features/player/domain/audio_service_interface.dart';
 import '../../features/player/presentation/stores/player_store.dart';
@@ -15,6 +16,7 @@ final getIt = GetIt.instance;
 void setupServiceLocator() {
   // Services
   getIt.registerLazySingleton<AudioService>(() => AudioServiceImpl());
+  getIt.registerLazySingleton<AppSettingsService>(() => AppSettingsService());
 
   // Repositories
   getIt.registerLazySingleton<IPracticeRepository>(
