@@ -6,6 +6,7 @@ import '../../features/player/domain/audio_service_interface.dart';
 import '../../features/player/presentation/stores/player_store.dart';
 import '../../features/tuner/presentation/stores/tuner_store.dart';
 import '../theme/theme_store.dart';
+import '../../features/settings/presentation/stores/settings_store.dart';
 import '../../features/player/data/repositories/practice_repository_impl.dart';
 import '../../features/player/domain/repositories/i_practice_repository.dart';
 
@@ -42,6 +43,14 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<ThemeStore>(
     () => ThemeStore(getIt<AppSettingsService>()),
   );
-  getIt
-      .registerFactory<HomeStore>(() => HomeStore(getIt<IContentRepository>()));
+  getIt.registerLazySingleton<SettingsStore>(
+    () => SettingsStore(
+      getIt<AppSettingsService>(),
+      getIt<IPracticeRepository>(),
+    ),
+  );
+  getIt.registerFactory<HomeStore>(() => HomeStore(
+        getIt<IContentRepository>(),
+        getIt<IPracticeRepository>(),
+      ));
 }

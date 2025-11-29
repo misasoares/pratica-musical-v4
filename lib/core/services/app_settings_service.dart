@@ -24,6 +24,11 @@ class AppSettingsService {
     await box.put(_keyHasSeenPracticeOnboarding, true);
   }
 
+  Future<void> resetOnboarding() async {
+    final box = await _getBox();
+    await box.delete(_keyHasSeenPracticeOnboarding);
+  }
+
   Future<bool> isDarkMode() async {
     final box = await _getBox();
     return box.get(_keyIsDarkMode, defaultValue: true); // Default to Dark Mode
