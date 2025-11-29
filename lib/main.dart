@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'core/di/service_locator.dart';
 import 'core/theme/app_theme.dart';
 import 'features/player/data/models/practice_log_model.dart';
-import 'features/player/presentation/pages/player_page.dart';
+import 'features/home/presentation/pages/home_page.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -20,7 +20,7 @@ class GuitarMasterApp extends StatelessWidget {
     return MaterialApp(
       title: 'Prática Musical',
       theme: AppTheme.darkTheme,
-      home: const PlayerPage(),
+      home: const HomePage(),
     );
   }
 }

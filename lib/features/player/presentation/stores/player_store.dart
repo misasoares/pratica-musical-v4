@@ -134,7 +134,7 @@ abstract class PlayerStoreBase with Store {
   @action
   Future<void> _finishSession() async {
     currentPhase = PracticePhase.finished;
-    togglePlay();
+    await togglePlay();
 
     if (_currentExercise != null) {
       final log = PracticeLogModel(
