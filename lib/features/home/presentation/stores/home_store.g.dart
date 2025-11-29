@@ -73,12 +73,69 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$weeklyPracticesAtom =
+      Atom(name: 'HomeStoreBase.weeklyPractices', context: context);
+
+  @override
+  int get weeklyPractices {
+    _$weeklyPracticesAtom.reportRead();
+    return super.weeklyPractices;
+  }
+
+  @override
+  set weeklyPractices(int value) {
+    _$weeklyPracticesAtom.reportWrite(value, super.weeklyPractices, () {
+      super.weeklyPractices = value;
+    });
+  }
+
+  late final _$maxBpmAtom =
+      Atom(name: 'HomeStoreBase.maxBpm', context: context);
+
+  @override
+  int get maxBpm {
+    _$maxBpmAtom.reportRead();
+    return super.maxBpm;
+  }
+
+  @override
+  set maxBpm(int value) {
+    _$maxBpmAtom.reportWrite(value, super.maxBpm, () {
+      super.maxBpm = value;
+    });
+  }
+
+  late final _$lastPracticedLogAtom =
+      Atom(name: 'HomeStoreBase.lastPracticedLog', context: context);
+
+  @override
+  PracticeLogModel? get lastPracticedLog {
+    _$lastPracticedLogAtom.reportRead();
+    return super.lastPracticedLog;
+  }
+
+  @override
+  set lastPracticedLog(PracticeLogModel? value) {
+    _$lastPracticedLogAtom.reportWrite(value, super.lastPracticedLog, () {
+      super.lastPracticedLog = value;
+    });
+  }
+
   late final _$loadProgramsAsyncAction =
       AsyncAction('HomeStoreBase.loadPrograms', context: context);
 
   @override
   Future<void> loadPrograms() {
     return _$loadProgramsAsyncAction.run(() => super.loadPrograms());
+  }
+
+  late final _$loadDashboardStatsAsyncAction =
+      AsyncAction('HomeStoreBase.loadDashboardStats', context: context);
+
+  @override
+  Future<void> loadDashboardStats() {
+    return _$loadDashboardStatsAsyncAction
+        .run(() => super.loadDashboardStats());
   }
 
   late final _$loadProgramAsyncAction =
@@ -95,7 +152,10 @@ mixin _$HomeStore on HomeStoreBase, Store {
 programs: ${programs},
 program: ${program},
 isLoading: ${isLoading},
-errorMessage: ${errorMessage}
+errorMessage: ${errorMessage},
+weeklyPractices: ${weeklyPractices},
+maxBpm: ${maxBpm},
+lastPracticedLog: ${lastPracticedLog}
     ''';
   }
 }
