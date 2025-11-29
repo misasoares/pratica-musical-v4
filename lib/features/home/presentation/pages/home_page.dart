@@ -12,7 +12,9 @@ import '../../../content/domain/entities/schedule.dart';
 import '../../../content/domain/entities/theory_content.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String programId;
+
+  const HomePage({super.key, required this.programId});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _store.loadProgram();
+    _store.loadProgram(widget.programId);
   }
 
   @override
@@ -32,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Observer(
-          builder: (_) => Text(_store.program?.title ?? 'Carregando...'),
+          builder: (_) => Text(_store.program?.title ?? 'Detalhes do Curso'),
         ),
       ),
       body: Observer(

@@ -12,6 +12,9 @@ abstract class HomeStoreBase with Store {
   HomeStoreBase(this._contentRepository);
 
   @observable
+  List<Program> programs = [];
+
+  @observable
   Program? program;
 
   @observable
@@ -21,12 +24,24 @@ abstract class HomeStoreBase with Store {
   String? errorMessage;
 
   @action
-  Future<void> loadProgram() async {
+  Future<void> loadPrograms() async {
     isLoading = true;
     errorMessage = null;
     try {
-      // Hardcoded ID for now as per instructions
-      program = await _contentRepository.getProgram('prog_palhetada_mestre');
+      programs = await _contentRepository.getPrograms();
+    } catch (e) {
+      errorMessage = 'Erro ao carregar cursos: $e';
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  @action
+  Future<void> loadProgram(String programId) async {
+    isLoading = true;
+    errorMessage = null;
+    try {
+      program = await _contentRepository.getProgram(programId);
     } catch (e) {
       errorMessage = 'Erro ao carregar curso: $e';
     } finally {
