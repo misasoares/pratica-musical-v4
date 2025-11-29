@@ -5,6 +5,8 @@ class AppSettingsService {
   static const String _keyHasSeenPracticeOnboarding =
       'hasSeenPracticeOnboarding';
 
+  static const String _keyIsDarkMode = 'isDarkMode';
+
   Future<Box> _getBox() async {
     if (Hive.isBoxOpen(_boxName)) {
       return Hive.box(_boxName);
@@ -20,5 +22,15 @@ class AppSettingsService {
   Future<void> setSeenPracticeOnboarding() async {
     final box = await _getBox();
     await box.put(_keyHasSeenPracticeOnboarding, true);
+  }
+
+  Future<bool> isDarkMode() async {
+    final box = await _getBox();
+    return box.get(_keyIsDarkMode, defaultValue: true); // Default to Dark Mode
+  }
+
+  Future<void> setDarkMode(bool isDark) async {
+    final box = await _getBox();
+    await box.put(_keyIsDarkMode, isDark);
   }
 }
