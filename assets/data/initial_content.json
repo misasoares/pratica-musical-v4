@@ -1,38 +1,40 @@
 {
-  "program": {
-    "id": "prog_palhetada_mestre",
-    "title": "Mestre da Palhetada Alternada",
-    "modules": [
-      {
-        "id": "mod_01_fundamentos",
-        "title": "Módulo 1: Fundamentos",
-        "type": "theory",
-        "contents": [
-          { "id": "aula_01", "title": "A Pega da Palheta", "videoUrl": "vimeo_id_01", "type": "video" },
-          { "id": "aula_02", "title": "Mecânica do Pulso", "videoUrl": "vimeo_id_02", "type": "video" }
-        ]
-      },
-      {
-        "id": "mod_02_pratica",
-        "title": "Módulo 2: Prática Guiada",
-        "type": "practice",
-        "schedules": [
-          {
-            "id": "sched_iniciante",
-            "title": "Treino A: O Despertar",
-            "description": "Foco em relaxamento e mecânica limpa.",
-            "exercises": ["ex_01_corda_solta", "ex_02_1234"]
-          },
-          {
-            "id": "sched_resistencia",
-            "title": "Treino B: Resistência",
-            "description": "Foco em manter a velocidade por longos períodos.",
-            "exercises": ["ex_02_1234", "ex_05_salto"]
-          }
-        ]
-      }
-    ]
-  },
+  "programs": [
+    {
+      "id": "prog_palhetada_mestre",
+      "title": "Mestre da Palhetada Alternada",
+      "modules": [
+        {
+          "id": "mod_01_fundamentos",
+          "title": "Módulo 1: Fundamentos",
+          "type": "theory",
+          "contents": [
+            { "id": "aula_01", "title": "A Pega da Palheta", "videoUrl": "vimeo_id_01", "type": "video" },
+            { "id": "aula_02", "title": "Mecânica do Pulso", "videoUrl": "vimeo_id_02", "type": "video" }
+          ]
+        },
+        {
+          "id": "mod_02_pratica",
+          "title": "Módulo 2: Prática Guiada",
+          "type": "practice",
+          "schedules": [
+            {
+              "id": "sched_iniciante",
+              "title": "Treino A: O Despertar",
+              "description": "Foco em relaxamento e mecânica limpa.",
+              "exercises": ["ex_01_corda_solta", "ex_02_1234"]
+            },
+            {
+              "id": "sched_resistencia",
+              "title": "Treino B: Resistência",
+              "description": "Foco em manter a velocidade por longos períodos.",
+              "exercises": ["ex_02_1234", "ex_05_salto"]
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "exercises_db": [
     {
       "id": "ex_01_corda_solta",

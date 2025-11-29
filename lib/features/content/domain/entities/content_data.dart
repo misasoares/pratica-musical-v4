@@ -8,7 +8,7 @@ part 'content_data.g.dart';
 @freezed
 class ContentData with _$ContentData {
   const factory ContentData({
-    required Program program,
+    required List<Program> programs,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'exercises_db') required List<Exercise> exercisesDb,
   }) = _ContentData;

@@ -19,15 +19,23 @@ class ContentRepositoryImpl implements IContentRepository {
   }
 
   @override
+  Future<List<Program>> getPrograms() async {
+    final data = await _loadData();
+    return data.programs;
+  }
+
+  @override
   Future<Program> getProgram(String programId) async {
     final data = await _loadData();
-    // For now, we only have one program in the JSON, so we return it.
-    // In a real scenario, we would filter by ID if the JSON had multiple programs.
-    if (data.program.id == programId) {
-      return data.program;
+    try {
+      return data.programs.firstWhere((p) => p.id == programId);
+    } catch (e) {
+      // Fallback to first program if not found, or rethrow
+      if (data.programs.isNotEmpty) {
+        return data.programs.first;
+      }
+      throw Exception('Program not found: $programId');
     }
-    // Fallback or error if ID doesn't match, but for this phase we assume it matches
-    return data.program;
   }
 
   @override

@@ -20,7 +20,7 @@ ContentData _$ContentDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ContentData {
-  Program get program => throw _privateConstructorUsedError;
+  List<Program> get programs => throw _privateConstructorUsedError;
   @JsonKey(name: 'exercises_db')
   List<Exercise> get exercisesDb => throw _privateConstructorUsedError;
 
@@ -41,10 +41,8 @@ abstract class $ContentDataCopyWith<$Res> {
       _$ContentDataCopyWithImpl<$Res, ContentData>;
   @useResult
   $Res call(
-      {Program program,
+      {List<Program> programs,
       @JsonKey(name: 'exercises_db') List<Exercise> exercisesDb});
-
-  $ProgramCopyWith<$Res> get program;
 }
 
 /// @nodoc
@@ -62,29 +60,19 @@ class _$ContentDataCopyWithImpl<$Res, $Val extends ContentData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? program = null,
+    Object? programs = null,
     Object? exercisesDb = null,
   }) {
     return _then(_value.copyWith(
-      program: null == program
-          ? _value.program
-          : program // ignore: cast_nullable_to_non_nullable
-              as Program,
+      programs: null == programs
+          ? _value.programs
+          : programs // ignore: cast_nullable_to_non_nullable
+              as List<Program>,
       exercisesDb: null == exercisesDb
           ? _value.exercisesDb
           : exercisesDb // ignore: cast_nullable_to_non_nullable
               as List<Exercise>,
     ) as $Val);
-  }
-
-  /// Create a copy of ContentData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ProgramCopyWith<$Res> get program {
-    return $ProgramCopyWith<$Res>(_value.program, (value) {
-      return _then(_value.copyWith(program: value) as $Val);
-    });
   }
 }
 
@@ -97,11 +85,8 @@ abstract class _$$ContentDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Program program,
+      {List<Program> programs,
       @JsonKey(name: 'exercises_db') List<Exercise> exercisesDb});
-
-  @override
-  $ProgramCopyWith<$Res> get program;
 }
 
 /// @nodoc
@@ -117,14 +102,14 @@ class __$$ContentDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? program = null,
+    Object? programs = null,
     Object? exercisesDb = null,
   }) {
     return _then(_$ContentDataImpl(
-      program: null == program
-          ? _value.program
-          : program // ignore: cast_nullable_to_non_nullable
-              as Program,
+      programs: null == programs
+          ? _value._programs
+          : programs // ignore: cast_nullable_to_non_nullable
+              as List<Program>,
       exercisesDb: null == exercisesDb
           ? _value._exercisesDb
           : exercisesDb // ignore: cast_nullable_to_non_nullable
@@ -137,27 +122,34 @@ class __$$ContentDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ContentDataImpl implements _ContentData {
   const _$ContentDataImpl(
-      {required this.program,
+      {required final List<Program> programs,
       @JsonKey(name: 'exercises_db') required final List<Exercise> exercisesDb})
-      : _exercisesDb = exercisesDb;
+      : _programs = programs,
+        _exercisesDb = exercisesDb;
 
   factory _$ContentDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$ContentDataImplFromJson(json);
 
+  final List<Program> _programs;
   @override
-  final Program program;
+  List<Program> get programs {
+    if (_programs is EqualUnmodifiableListView) return _programs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_programs);
+  }
+
   final List<Exercise> _exercisesDb;
+
   @override
   @JsonKey(name: 'exercises_db')
   List<Exercise> get exercisesDb {
     if (_exercisesDb is EqualUnmodifiableListView) return _exercisesDb;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_exercisesDb);
   }
 
   @override
   String toString() {
-    return 'ContentData(program: $program, exercisesDb: $exercisesDb)';
+    return 'ContentData(programs: $programs, exercisesDb: $exercisesDb)';
   }
 
   @override
@@ -165,7 +157,7 @@ class _$ContentDataImpl implements _ContentData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ContentDataImpl &&
-            (identical(other.program, program) || other.program == program) &&
+            const DeepCollectionEquality().equals(other._programs, _programs) &&
             const DeepCollectionEquality()
                 .equals(other._exercisesDb, _exercisesDb));
   }
@@ -173,7 +165,9 @@ class _$ContentDataImpl implements _ContentData {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, program, const DeepCollectionEquality().hash(_exercisesDb));
+      runtimeType,
+      const DeepCollectionEquality().hash(_programs),
+      const DeepCollectionEquality().hash(_exercisesDb));
 
   /// Create a copy of ContentData
   /// with the given fields replaced by the non-null parameter values.
@@ -193,7 +187,7 @@ class _$ContentDataImpl implements _ContentData {
 
 abstract class _ContentData implements ContentData {
   const factory _ContentData(
-      {required final Program program,
+      {required final List<Program> programs,
       @JsonKey(name: 'exercises_db')
       required final List<Exercise> exercisesDb}) = _$ContentDataImpl;
 
@@ -201,7 +195,7 @@ abstract class _ContentData implements ContentData {
       _$ContentDataImpl.fromJson;
 
   @override
-  Program get program;
+  List<Program> get programs;
   @override
   @JsonKey(name: 'exercises_db')
   List<Exercise> get exercisesDb;

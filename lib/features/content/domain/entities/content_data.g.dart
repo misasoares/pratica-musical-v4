@@ -8,7 +8,9 @@ part of 'content_data.dart';
 
 _$ContentDataImpl _$$ContentDataImplFromJson(Map<String, dynamic> json) =>
     _$ContentDataImpl(
-      program: Program.fromJson(json['program'] as Map<String, dynamic>),
+      programs: (json['programs'] as List<dynamic>)
+          .map((e) => Program.fromJson(e as Map<String, dynamic>))
+          .toList(),
       exercisesDb: (json['exercises_db'] as List<dynamic>)
           .map((e) => Exercise.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -16,6 +18,6 @@ _$ContentDataImpl _$$ContentDataImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ContentDataImplToJson(_$ContentDataImpl instance) =>
     <String, dynamic>{
-      'program': instance.program,
+      'programs': instance.programs,
       'exercises_db': instance.exercisesDb,
     };
