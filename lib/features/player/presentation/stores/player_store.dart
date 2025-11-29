@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
+import '../../data/models/practice_log_model.dart';
 import '../../domain/audio_service_interface.dart';
+import '../../domain/repositories/i_practice_repository.dart';
 import '../../domain/exercise.dart';
 import '../../domain/practice_phase.dart';
 
@@ -11,9 +13,10 @@ class PlayerStore = PlayerStoreBase with _$PlayerStore;
 
 abstract class PlayerStoreBase with Store {
   final AudioService _audioService;
+  final IPracticeRepository _repository;
   Timer? _timer;
 
-  PlayerStoreBase(this._audioService);
+  PlayerStoreBase(this._audioService, this._repository);
 
   @observable
   int currentBpm = 60;
@@ -30,6 +33,10 @@ abstract class PlayerStoreBase with Store {
   @observable
   bool isPlaying = false;
 
+  // Track the exercise for saving logs
+  Exercise? _currentExercise;
+  int _maxBpmReached = 0;
+
   @computed
   double get progressPercentage {
     if (targetDuration.inSeconds == 0) return 0;
@@ -40,14 +47,27 @@ abstract class PlayerStoreBase with Store {
   String get phaseLabel => currentPhase.label;
 
   @action
-  void initSession(Exercise exercise) {
-    currentBpm = exercise
-        .targetBpm; // Start with target or warmup BPM? Assuming target for now or logic to be added.
+  Future<void> initSession(Exercise exercise) async {
+    _currentExercise = exercise;
     targetDuration = exercise.duration;
     elapsedTime = Duration.zero;
     currentPhase = PracticePhase.warmup;
     isPlaying = false;
     _timer?.cancel();
+    _maxBpmReached = 0;
+
+    // Load last log to determine target BPM
+    final lastLog =
+        await _repository.getLastLog(exercise.name); // Using name as ID for now
+    if (lastLog != null) {
+      // Logic: If last session was success, maybe increase BPM?
+      // For now, just restore the target.
+      currentBpm = lastLog.targetBpm;
+      debugPrint('Restored BPM from history: $currentBpm');
+    } else {
+      currentBpm = exercise.targetBpm; // Default/Calibration
+      debugPrint('No history found, using default BPM: $currentBpm');
+    }
   }
 
   @action
@@ -77,6 +97,9 @@ abstract class PlayerStoreBase with Store {
   @action
   Future<void> setBpm(int value) async {
     currentBpm = value;
+    if (value > _maxBpmReached) {
+      _maxBpmReached = value;
+    }
     if (isPlaying) {
       await _audioService.setBpm(value);
     }
@@ -98,14 +121,34 @@ abstract class PlayerStoreBase with Store {
     final progress = progressPercentage;
 
     if (progress >= 1.0 && currentPhase != PracticePhase.finished) {
-      currentPhase = PracticePhase.finished;
-      togglePlay(); // Stop when finished
+      unawaited(_finishSession());
     } else if (progress < 0.1) {
       currentPhase = PracticePhase.warmup;
     } else if (progress < 0.2) {
       currentPhase = PracticePhase.calibration;
     } else {
       currentPhase = PracticePhase.training;
+    }
+  }
+
+  @action
+  Future<void> _finishSession() async {
+    currentPhase = PracticePhase.finished;
+    togglePlay();
+
+    if (_currentExercise != null) {
+      final log = PracticeLogModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(), // Simple ID
+        exerciseId: _currentExercise!.name,
+        date: DateTime.now(),
+        mode: 'training', // Simplified
+        maxBpmReached: _maxBpmReached > 0 ? _maxBpmReached : currentBpm,
+        durationSeconds: elapsedTime.inSeconds,
+        result: 'success',
+        targetBpm: currentBpm,
+      );
+      await _repository.saveLog(log);
+      debugPrint('Session saved to Hive');
     }
   }
 

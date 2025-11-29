@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'core/di/service_locator.dart';
 import 'core/theme/app_theme.dart';
+import 'features/player/data/models/practice_log_model.dart';
 import 'features/player/presentation/pages/player_page.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(PracticeLogModelAdapter());
   setupServiceLocator();
   runApp(const GuitarMasterApp());
 }

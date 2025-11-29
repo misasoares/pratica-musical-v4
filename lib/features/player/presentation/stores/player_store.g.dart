@@ -104,6 +104,14 @@ mixin _$PlayerStore on PlayerStoreBase, Store {
     });
   }
 
+  late final _$initSessionAsyncAction =
+      AsyncAction('PlayerStoreBase.initSession', context: context);
+
+  @override
+  Future<void> initSession(Exercise exercise) {
+    return _$initSessionAsyncAction.run(() => super.initSession(exercise));
+  }
+
   late final _$togglePlayAsyncAction =
       AsyncAction('PlayerStoreBase.togglePlay', context: context);
 
@@ -120,19 +128,16 @@ mixin _$PlayerStore on PlayerStoreBase, Store {
     return _$setBpmAsyncAction.run(() => super.setBpm(value));
   }
 
-  late final _$PlayerStoreBaseActionController =
-      ActionController(name: 'PlayerStoreBase', context: context);
+  late final _$_finishSessionAsyncAction =
+      AsyncAction('PlayerStoreBase._finishSession', context: context);
 
   @override
-  void initSession(Exercise exercise) {
-    final _$actionInfo = _$PlayerStoreBaseActionController.startAction(
-        name: 'PlayerStoreBase.initSession');
-    try {
-      return super.initSession(exercise);
-    } finally {
-      _$PlayerStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<void> _finishSession() {
+    return _$_finishSessionAsyncAction.run(() => super._finishSession());
   }
+
+  late final _$PlayerStoreBaseActionController =
+      ActionController(name: 'PlayerStoreBase', context: context);
 
   @override
   void _tick() {
