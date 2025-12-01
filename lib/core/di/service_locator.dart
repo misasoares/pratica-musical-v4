@@ -17,6 +17,16 @@ import '../../features/tuner/domain/repositories/i_tuner_repository.dart';
 
 import '../../features/home/presentation/stores/home_store.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../features/auth/data/datasources/firebase_auth_datasource.dart';
+import '../../features/auth/data/repositories/auth_repository_impl.dart';
+import '../../features/auth/domain/repositories/i_auth_repository.dart';
+import '../../features/auth/domain/usecases/auth_usecases.dart';
+import '../../features/auth/presentation/stores/auth_store.dart';
+
 final getIt = GetIt.instance;
 
 void setupServiceLocator() {
@@ -52,5 +62,42 @@ void setupServiceLocator() {
   getIt.registerFactory<HomeStore>(() => HomeStore(
         getIt<IContentRepository>(),
         getIt<IPracticeRepository>(),
+      ));
+  // Auth External
+  getIt.registerLazySingleton(() => FirebaseAuth.instance);
+  getIt.registerLazySingleton(() => GoogleSignIn(scopes: ['email']));
+
+  getIt.registerLazySingleton(() => FirebaseFirestore.instance);
+
+  // Auth Data
+  getIt.registerLazySingleton<IAuthDataSource>(() => FirebaseAuthDataSource(
+        getIt(),
+        getIt(),
+      ));
+
+  getIt.registerLazySingleton<IAuthRepository>(() => AuthRepositoryImpl(
+        getIt(),
+        getIt(),
+      ));
+
+  // Auth UseCases
+  getIt.registerLazySingleton(() => LoginWithGoogleUseCase(getIt()));
+
+  getIt.registerLazySingleton(() => LoginWithEmailUseCase(getIt()));
+  getIt.registerLazySingleton(() => RegisterWithEmailUseCase(getIt()));
+  getIt.registerLazySingleton(() => RecoverPasswordUseCase(getIt()));
+  getIt.registerLazySingleton(() => LogoutUseCase(getIt()));
+  getIt.registerLazySingleton(() => GetCurrentUserUseCase(getIt()));
+  getIt.registerLazySingleton(() => WatchAuthStateUseCase(getIt()));
+
+  // Auth Store
+  getIt.registerLazySingleton<AuthStore>(() => AuthStore(
+        getIt(),
+        getIt(),
+        getIt(),
+        getIt(),
+        getIt(),
+        getIt(),
+        getIt(),
       ));
 }

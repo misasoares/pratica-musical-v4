@@ -7,13 +7,18 @@ import 'package:get_it/get_it.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_store.dart';
 import 'features/home/presentation/pages/main_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'core/guards/auth_guard.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   await Hive.initFlutter();
   Hive.registerAdapter(PracticeLogModelAdapter());
   setupServiceLocator();
 
-  // Load saved theme
   final themeStore = GetIt.I<ThemeStore>();
   await themeStore.loadTheme();
 
@@ -34,7 +39,7 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: themeStore.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          home: const MainScreen(),
+          home: const AuthGuard(child: MainScreen()),
         );
       },
     );
