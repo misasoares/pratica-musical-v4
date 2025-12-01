@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'program.dart';
 import 'exercise.dart';
@@ -9,7 +11,6 @@ part 'content_data.g.dart';
 class ContentData with _$ContentData {
   const factory ContentData({
     required List<Program> programs,
-    // ignore: invalid_annotation_target
     @JsonKey(name: 'exercises_db') required List<Exercise> exercisesDb,
   }) = _ContentData;
 

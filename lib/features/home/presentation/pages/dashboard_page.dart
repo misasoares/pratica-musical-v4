@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -19,7 +20,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
-    _store.loadPrograms();
+    unawaited(_store.loadPrograms());
   }
 
   @override
@@ -294,13 +295,13 @@ class _DashboardPageState extends State<DashboardPage> {
     final exercise = await _store.getExercise(exerciseId);
 
     if (exercise != null && mounted) {
-      Navigator.of(context).push(
+      unawaited(Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => PlayerPage(
             args: PlayerPageArgs(exercise: exercise),
           ),
         ),
-      );
+      ));
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Exercício não encontrado.')),

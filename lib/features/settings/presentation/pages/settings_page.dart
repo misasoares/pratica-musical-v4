@@ -28,10 +28,10 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           const Divider(),
-          ListTile(
-            title: const Text('Sobre'),
-            subtitle: const Text('Versão 1.0.0 (MVP Beta)'),
-            leading: const Icon(Icons.info_outline),
+          const ListTile(
+            title: Text('Sobre'),
+            subtitle: Text('Versão 1.0.0 (MVP Beta)'),
+            leading: Icon(Icons.info_outline),
           ),
           const SizedBox(height: 20),
           Padding(

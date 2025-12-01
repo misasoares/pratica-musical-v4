@@ -139,11 +139,11 @@ class _$ContentDataImpl implements _ContentData {
   }
 
   final List<Exercise> _exercisesDb;
-
   @override
   @JsonKey(name: 'exercises_db')
   List<Exercise> get exercisesDb {
     if (_exercisesDb is EqualUnmodifiableListView) return _exercisesDb;
+    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_exercisesDb);
   }
 

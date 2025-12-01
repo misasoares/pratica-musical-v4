@@ -138,6 +138,14 @@ mixin _$HomeStore on HomeStoreBase, Store {
         .run(() => super.loadDashboardStats());
   }
 
+  late final _$getExerciseAsyncAction =
+      AsyncAction('HomeStoreBase.getExercise', context: context);
+
+  @override
+  Future<Exercise?> getExercise(String exerciseId) {
+    return _$getExerciseAsyncAction.run(() => super.getExercise(exerciseId));
+  }
+
   late final _$loadProgramAsyncAction =
       AsyncAction('HomeStoreBase.loadProgram', context: context);
 
