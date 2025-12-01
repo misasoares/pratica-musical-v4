@@ -47,5 +47,16 @@
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Precisamos ouvir sua guitarra para ajudar você a afinar.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.835512568530-ckmibqne728f12358dk9a5sf9kdq0o1b</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
