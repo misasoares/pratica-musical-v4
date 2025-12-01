@@ -9,7 +9,13 @@ class Program with _$Program {
   const factory Program({
     required String id,
     required String title,
-    required List<Module> modules,
+    required String description,
+    required String thumbnailUrl,
+    required int order,
+    @Default(false) bool isVisible,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    @Default([]) List<Module> modules,
   }) = _Program;
 
   factory Program.fromJson(Map<String, dynamic> json) =>

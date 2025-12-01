@@ -10,6 +10,8 @@ class Exercise with _$Exercise {
     required String title,
     required String videoUrl,
     required String tabUrl,
+    @Default([]) List<String> tags,
+    @Default(1) int difficulty,
     int? warmupBpm,
     int? warmupDuration,
     @Default(60) int startBpmCalibration,

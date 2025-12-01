@@ -11,6 +11,7 @@ class Module with _$Module {
     required String id,
     required String title,
     required String type,
+    required int order,
     List<Schedule>? schedules,
     List<TheoryContent>? contents,
   }) = _Module;

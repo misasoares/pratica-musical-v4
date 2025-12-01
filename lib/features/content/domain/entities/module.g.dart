@@ -10,6 +10,7 @@ _$ModuleImpl _$$ModuleImplFromJson(Map<String, dynamic> json) => _$ModuleImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       type: json['type'] as String,
+      order: (json['order'] as num).toInt(),
       schedules: (json['schedules'] as List<dynamic>?)
           ?.map((e) => Schedule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$ModuleImplToJson(_$ModuleImpl instance) =>
       'id': instance.id,
       'title': instance.title,
       'type': instance.type,
+      'order': instance.order,
       'schedules': instance.schedules,
       'contents': instance.contents,
     };

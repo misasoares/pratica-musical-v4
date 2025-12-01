@@ -23,6 +23,7 @@ mixin _$Module {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
+  int get order => throw _privateConstructorUsedError;
   List<Schedule>? get schedules => throw _privateConstructorUsedError;
   List<TheoryContent>? get contents => throw _privateConstructorUsedError;
 
@@ -44,6 +45,7 @@ abstract class $ModuleCopyWith<$Res> {
       {String id,
       String title,
       String type,
+      int order,
       List<Schedule>? schedules,
       List<TheoryContent>? contents});
 }
@@ -66,6 +68,7 @@ class _$ModuleCopyWithImpl<$Res, $Val extends Module>
     Object? id = null,
     Object? title = null,
     Object? type = null,
+    Object? order = null,
     Object? schedules = freezed,
     Object? contents = freezed,
   }) {
@@ -82,6 +85,10 @@ class _$ModuleCopyWithImpl<$Res, $Val extends Module>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      order: null == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int,
       schedules: freezed == schedules
           ? _value.schedules
           : schedules // ignore: cast_nullable_to_non_nullable
@@ -105,6 +112,7 @@ abstract class _$$ModuleImplCopyWith<$Res> implements $ModuleCopyWith<$Res> {
       {String id,
       String title,
       String type,
+      int order,
       List<Schedule>? schedules,
       List<TheoryContent>? contents});
 }
@@ -125,6 +133,7 @@ class __$$ModuleImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? type = null,
+    Object? order = null,
     Object? schedules = freezed,
     Object? contents = freezed,
   }) {
@@ -141,6 +150,10 @@ class __$$ModuleImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      order: null == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int,
       schedules: freezed == schedules
           ? _value._schedules
           : schedules // ignore: cast_nullable_to_non_nullable
@@ -160,6 +173,7 @@ class _$ModuleImpl implements _Module {
       {required this.id,
       required this.title,
       required this.type,
+      required this.order,
       final List<Schedule>? schedules,
       final List<TheoryContent>? contents})
       : _schedules = schedules,
@@ -174,6 +188,8 @@ class _$ModuleImpl implements _Module {
   final String title;
   @override
   final String type;
+  @override
+  final int order;
   final List<Schedule>? _schedules;
   @override
   List<Schedule>? get schedules {
@@ -196,7 +212,7 @@ class _$ModuleImpl implements _Module {
 
   @override
   String toString() {
-    return 'Module(id: $id, title: $title, type: $type, schedules: $schedules, contents: $contents)';
+    return 'Module(id: $id, title: $title, type: $type, order: $order, schedules: $schedules, contents: $contents)';
   }
 
   @override
@@ -207,6 +223,7 @@ class _$ModuleImpl implements _Module {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.order, order) || other.order == order) &&
             const DeepCollectionEquality()
                 .equals(other._schedules, _schedules) &&
             const DeepCollectionEquality().equals(other._contents, _contents));
@@ -219,6 +236,7 @@ class _$ModuleImpl implements _Module {
       id,
       title,
       type,
+      order,
       const DeepCollectionEquality().hash(_schedules),
       const DeepCollectionEquality().hash(_contents));
 
@@ -243,6 +261,7 @@ abstract class _Module implements Module {
       {required final String id,
       required final String title,
       required final String type,
+      required final int order,
       final List<Schedule>? schedules,
       final List<TheoryContent>? contents}) = _$ModuleImpl;
 
@@ -254,6 +273,8 @@ abstract class _Module implements Module {
   String get title;
   @override
   String get type;
+  @override
+  int get order;
   @override
   List<Schedule>? get schedules;
   @override

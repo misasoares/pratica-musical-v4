@@ -24,6 +24,8 @@ mixin _$Exercise {
   String get title => throw _privateConstructorUsedError;
   String get videoUrl => throw _privateConstructorUsedError;
   String get tabUrl => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError;
+  int get difficulty => throw _privateConstructorUsedError;
   int? get warmupBpm => throw _privateConstructorUsedError;
   int? get warmupDuration => throw _privateConstructorUsedError;
   int get startBpmCalibration => throw _privateConstructorUsedError;
@@ -48,6 +50,8 @@ abstract class $ExerciseCopyWith<$Res> {
       String title,
       String videoUrl,
       String tabUrl,
+      List<String> tags,
+      int difficulty,
       int? warmupBpm,
       int? warmupDuration,
       int startBpmCalibration});
@@ -72,6 +76,8 @@ class _$ExerciseCopyWithImpl<$Res, $Val extends Exercise>
     Object? title = null,
     Object? videoUrl = null,
     Object? tabUrl = null,
+    Object? tags = null,
+    Object? difficulty = null,
     Object? warmupBpm = freezed,
     Object? warmupDuration = freezed,
     Object? startBpmCalibration = null,
@@ -93,6 +99,14 @@ class _$ExerciseCopyWithImpl<$Res, $Val extends Exercise>
           ? _value.tabUrl
           : tabUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      difficulty: null == difficulty
+          ? _value.difficulty
+          : difficulty // ignore: cast_nullable_to_non_nullable
+              as int,
       warmupBpm: freezed == warmupBpm
           ? _value.warmupBpm
           : warmupBpm // ignore: cast_nullable_to_non_nullable
@@ -122,6 +136,8 @@ abstract class _$$ExerciseImplCopyWith<$Res>
       String title,
       String videoUrl,
       String tabUrl,
+      List<String> tags,
+      int difficulty,
       int? warmupBpm,
       int? warmupDuration,
       int startBpmCalibration});
@@ -144,6 +160,8 @@ class __$$ExerciseImplCopyWithImpl<$Res>
     Object? title = null,
     Object? videoUrl = null,
     Object? tabUrl = null,
+    Object? tags = null,
+    Object? difficulty = null,
     Object? warmupBpm = freezed,
     Object? warmupDuration = freezed,
     Object? startBpmCalibration = null,
@@ -165,6 +183,14 @@ class __$$ExerciseImplCopyWithImpl<$Res>
           ? _value.tabUrl
           : tabUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      difficulty: null == difficulty
+          ? _value.difficulty
+          : difficulty // ignore: cast_nullable_to_non_nullable
+              as int,
       warmupBpm: freezed == warmupBpm
           ? _value.warmupBpm
           : warmupBpm // ignore: cast_nullable_to_non_nullable
@@ -189,9 +215,12 @@ class _$ExerciseImpl implements _Exercise {
       required this.title,
       required this.videoUrl,
       required this.tabUrl,
+      final List<String> tags = const [],
+      this.difficulty = 1,
       this.warmupBpm,
       this.warmupDuration,
-      this.startBpmCalibration = 60});
+      this.startBpmCalibration = 60})
+      : _tags = tags;
 
   factory _$ExerciseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExerciseImplFromJson(json);
@@ -204,6 +233,18 @@ class _$ExerciseImpl implements _Exercise {
   final String videoUrl;
   @override
   final String tabUrl;
+  final List<String> _tags;
+  @override
+  @JsonKey()
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
+
+  @override
+  @JsonKey()
+  final int difficulty;
   @override
   final int? warmupBpm;
   @override
@@ -214,7 +255,7 @@ class _$ExerciseImpl implements _Exercise {
 
   @override
   String toString() {
-    return 'Exercise(id: $id, title: $title, videoUrl: $videoUrl, tabUrl: $tabUrl, warmupBpm: $warmupBpm, warmupDuration: $warmupDuration, startBpmCalibration: $startBpmCalibration)';
+    return 'Exercise(id: $id, title: $title, videoUrl: $videoUrl, tabUrl: $tabUrl, tags: $tags, difficulty: $difficulty, warmupBpm: $warmupBpm, warmupDuration: $warmupDuration, startBpmCalibration: $startBpmCalibration)';
   }
 
   @override
@@ -227,6 +268,9 @@ class _$ExerciseImpl implements _Exercise {
             (identical(other.videoUrl, videoUrl) ||
                 other.videoUrl == videoUrl) &&
             (identical(other.tabUrl, tabUrl) || other.tabUrl == tabUrl) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.difficulty, difficulty) ||
+                other.difficulty == difficulty) &&
             (identical(other.warmupBpm, warmupBpm) ||
                 other.warmupBpm == warmupBpm) &&
             (identical(other.warmupDuration, warmupDuration) ||
@@ -237,8 +281,17 @@ class _$ExerciseImpl implements _Exercise {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, videoUrl, tabUrl,
-      warmupBpm, warmupDuration, startBpmCalibration);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      videoUrl,
+      tabUrl,
+      const DeepCollectionEquality().hash(_tags),
+      difficulty,
+      warmupBpm,
+      warmupDuration,
+      startBpmCalibration);
 
   /// Create a copy of Exercise
   /// with the given fields replaced by the non-null parameter values.
@@ -262,6 +315,8 @@ abstract class _Exercise implements Exercise {
       required final String title,
       required final String videoUrl,
       required final String tabUrl,
+      final List<String> tags,
+      final int difficulty,
       final int? warmupBpm,
       final int? warmupDuration,
       final int startBpmCalibration}) = _$ExerciseImpl;
@@ -277,6 +332,10 @@ abstract class _Exercise implements Exercise {
   String get videoUrl;
   @override
   String get tabUrl;
+  @override
+  List<String> get tags;
+  @override
+  int get difficulty;
   @override
   int? get warmupBpm;
   @override
