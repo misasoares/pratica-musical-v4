@@ -21,11 +21,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../../core/services/storage_service.dart';
 import '../../features/auth/data/datasources/firebase_auth_datasource.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/i_auth_repository.dart';
 import '../../features/auth/domain/usecases/auth_usecases.dart';
 import '../../features/auth/presentation/stores/auth_store.dart';
+import '../../features/admin/presentation/stores/admin_store.dart';
 
 final getIt = GetIt.instance;
 
@@ -35,11 +38,21 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<AppSettingsService>(() => AppSettingsService());
   getIt.registerLazySingleton<PermissionService>(() => PermissionService());
 
+  getIt.registerLazySingleton(() => FirebaseFirestore.instance);
+  getIt.registerLazySingleton(() => FirebaseStorage.instanceFor(
+      bucket: 'gs://pratica-musical-v4.firebasestorage.app'));
+
+  // Core Services
+  getIt.registerLazySingleton<StorageService>(
+      () => StorageService(getIt<FirebaseStorage>()));
+
   // Repositories
   getIt.registerLazySingleton<IPracticeRepository>(
       () => PracticeRepositoryImpl());
-  getIt
-      .registerLazySingleton<IContentRepository>(() => ContentRepositoryImpl());
+  getIt.registerLazySingleton<IContentRepository>(() => ContentRepositoryImpl(
+        getIt<FirebaseFirestore>(),
+        getIt<StorageService>(),
+      ));
   getIt.registerLazySingleton<ITunerRepository>(() => TunerRepository());
 
   // Stores
@@ -63,11 +76,10 @@ void setupServiceLocator() {
         getIt<IContentRepository>(),
         getIt<IPracticeRepository>(),
       ));
+
   // Auth External
   getIt.registerLazySingleton(() => FirebaseAuth.instance);
   getIt.registerLazySingleton(() => GoogleSignIn(scopes: ['email']));
-
-  getIt.registerLazySingleton(() => FirebaseFirestore.instance);
 
   // Auth Data
   getIt.registerLazySingleton<IAuthDataSource>(() => FirebaseAuthDataSource(
@@ -100,4 +112,8 @@ void setupServiceLocator() {
         getIt(),
         getIt(),
       ));
+
+  // Admin Store
+  getIt.registerLazySingleton<AdminStore>(
+      () => AdminStore(getIt<IContentRepository>()));
 }

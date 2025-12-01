@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import '../../../../core/theme/theme_store.dart';
 import '../../../auth/presentation/stores/auth_store.dart';
+import '../../../admin/presentation/pages/admin_program_list_page.dart';
 import '../stores/settings_store.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -64,6 +65,19 @@ class SettingsPage extends StatelessWidget {
             title: Text('Sobre'),
             subtitle: Text('Versão 1.0.0 (MVP Beta)'),
             leading: Icon(Icons.info_outline),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.admin_panel_settings),
+            title: const Text('Painel Admin'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdminProgramListPage(),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 20),
           Padding(
