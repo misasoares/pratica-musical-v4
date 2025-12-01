@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import '../../../../core/theme/theme_store.dart';
+import '../../../auth/presentation/stores/auth_store.dart';
 import '../stores/settings_store.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -26,6 +27,37 @@ class SettingsPage extends StatelessWidget {
                 themeStore.toggleTheme(value);
               },
             ),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text('Sair', style: TextStyle(color: Colors.red)),
+            onTap: () async {
+              final confirm = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sair da conta?'),
+                  content: const Text('Você terá que fazer login novamente.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Sair',
+                          style: TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
+              );
+
+              if (confirm == true) {
+                final authStore = GetIt.I<AuthStore>();
+                await authStore.logout();
+                // O AuthGuard irá redirecionar automaticamente para o login
+              }
+            },
           ),
           const Divider(),
           const ListTile(
