@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import '../stores/home_store.dart';
-import 'home_page.dart';
+import 'program_details_page.dart';
 import '../../../player/presentation/pages/player_page.dart';
 import '../../../player/presentation/args/player_page_args.dart';
 
@@ -237,7 +237,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) =>
-                                      HomePage(programId: program.id),
+                                      ProgramDetailsPage(programId: program.id),
                                 ),
                               );
                             },
